@@ -4,23 +4,21 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request
 from sqlalchemy import text
 
-
 load_dotenv()
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/pav'
+lojaController = Flask(__name__)
+lojaController.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/pav'
 db = SQLAlchemy()
-db.init_app(app)
+db.init_app(lojaController)
 
-
-@app.post("/api/cliente")
+@lojaController.post("/api/cliente")
 def create_cliente():
     data = request.get_json()
     nomeCliente = data["nomeCliente"]
     enderecoCliente = data["enderecoCliente"]
 
     insert_cliente_query = text("INSERT INTO clientes(nomeCliente, enderecoCliente) VALUES (:nomeCliente, :enderecoCliente)")
-    db.session.execute(insert_cliente_query, {"nome": nomeCliente, "endereco": enderecoCliente})
+    db.session.execute(insert_cliente_query, {"nomeCliente": nomeCliente, "enderecoCliente": enderecoCliente})
     db.session.commit()
 
     idCliente = db.session.execute(text("SELECT LASTVAL();")).fetchone()[0]
@@ -29,7 +27,7 @@ def create_cliente():
 
     return {"id": idCliente, "message": f"{nomeCliente} criado."}, 201
 
-@app.get('/api/cliente')
+@lojaController.get('/api/cliente')
 def getall_cliente():
     from models.loja import Cliente
     
@@ -49,7 +47,7 @@ def getall_cliente():
 
     return {"clientes": cliente_list}
 
-@app.get("/api/cliente/<idCliente>")
+@lojaController.get("/api/cliente/<idCliente>")
 def get_cliente(idCliente):
     from models.loja import Cliente
 
@@ -63,7 +61,7 @@ def get_cliente(idCliente):
     else:
         return {"message": "Cliente não encontrado"}, 404
     
-@app.put('/api/cliente/<idCliente>')
+@lojaController.put('/api/cliente/<idCliente>')
 def put_cliente(idCliente):
     from models.loja import Cliente
 
@@ -74,11 +72,11 @@ def put_cliente(idCliente):
         cliente.endereco = data["enderecoCliente"]
         db.session.commit()
 
-        return {"message": f"Cliente {cliente.nomeCLiente} atualizado."}
+        return {"message": f"Cliente {cliente.nomeCliente} atualizado."}
     else:
         return {"message": "Cliente não encontrado."}, 404
     
-@app.delete('/api/cliente/<idCliente>')
+@lojaController.delete('/api/cliente/<idCliente>')
 def del_cliente(idCliente):
     from models.loja import Cliente
 
@@ -92,7 +90,7 @@ def del_cliente(idCliente):
         return {"message": "Cliente não encontrado."}, 404
 
 
-@app.post("/api/jogo")
+@lojaController.post("/api/jogo")
 def create_jogo():
     data = request.get_json()
     nomeJogo = data["nomeJogo"]
@@ -101,7 +99,7 @@ def create_jogo():
     precoJogo = data["precoJogo"]
     
 
-    insert_jogo_query = text("INSERT INTO jogos(nomeJogo, descricaoJogo, categoriaJogo, precoJogo) VALUES (:name, :description, :dificulty, :muscular_groups)")
+    insert_jogo_query = text("INSERT INTO jogos(nomeJogo, descricaoJogo, categoriaJogo, precoJogo) VALUES (:nomeJogo, :descricaoJogo, :categoriaJogo, :precoJogo)")
     db.session.execute(insert_jogo_query, {"nomeJogo": nomeJogo, "descricaoJogo": descricaoJogo, "categoriaJogo": categoriaJogo, "precoJogo": precoJogo})
     db.session.commit()
 
@@ -111,7 +109,7 @@ def create_jogo():
 
     return {"id": idJogo, "message": f"{nomeJogo} criado."}, 201  
 
-@app.get('/api/jogo')
+@lojaController.get('/api/jogo')
 def getall_jogo():
     from models.loja import Jogo
     
@@ -132,7 +130,7 @@ def getall_jogo():
 
     return {"jogos": jogo_list}
 
-@app.get("/api/jogo/<idJogo>")
+@lojaController.get("/api/jogo/<idJogo>")
 def get_jogo(idJogo):
     from models.loja import Jogo
 
@@ -148,7 +146,7 @@ def get_jogo(idJogo):
     else:
         return {"message": "Jogo não encontrado"}, 404
 
-@app.put('/api/jogo/<idJogo>')
+@lojaController.put('/api/jogo/<idJogo>')
 def put_jogo(idJogo):
     from models.loja import Jogo
 
@@ -165,7 +163,7 @@ def put_jogo(idJogo):
     else:
         return {"message": "Jogo não encontrado."}, 404
 
-@app.delete('/api/jogo/<idJogo>')
+@lojaController.delete('/api/jogo/<idJogo>')
 def del_jogo(idJogo):
     from models.loja import Jogo
 
@@ -179,7 +177,7 @@ def del_jogo(idJogo):
         return {"message": "Jogo não encontrado."}, 404
 
 
-@app.post("/api/pedido")
+@lojaController.post("/api/pedido")
 def create_pedido():
     data = request.get_json()
     idPedido = data["idPedido"]
@@ -200,7 +198,7 @@ def create_pedido():
 
     return {"id": idJogo, "message": f"{idPedido} Criado."}, 201  
 
-@app.get('/api/pedido')
+@lojaController.get('/api/pedido')
 def getall_pedido():
     from models.loja import Pedido
     
@@ -219,9 +217,9 @@ def getall_pedido():
 
     db.session.close()
 
-    return {"peidos": pedido_list}
+    return {"pedidos": pedido_list}
 
-@app.get("/api/pedido/<idPedido>")
+@lojaController.get("/api/pedido/<idPedido>")
 def get_pedido(idPedido):
     from models.loja import Pedido
 
@@ -237,7 +235,7 @@ def get_pedido(idPedido):
     else:
         return {"message": "Pedido não encontrado"}, 404
 
-@app.put('/api/pedido/<idPedido>')
+@lojaController.put('/api/pedido/<idPedido>')
 def put_pedido(idPedido):
     from models.loja import Pedido
 
@@ -255,7 +253,7 @@ def put_pedido(idPedido):
     else:
         return {"message": "Pedido não encontrado."}, 404
 
-@app.delete('/api/pedido/<idPedido>')
+@lojaController.delete('/api/pedido/<idPedido>')
 def del_pedido(idPedido):
     from models.loja import Pedido
 
@@ -269,4 +267,4 @@ def del_pedido(idPedido):
         return {"message": "Pedido não encontrado."}, 404
 
 if __name__ == "__main__":
-    app.run()
+    lojaController.run()

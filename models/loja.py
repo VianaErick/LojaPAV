@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, Date, ForeignKey
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from controllers.lojaController import db
+from sqlalchemy.orm import relationship, declarative_base
+from lojaController import db
 
 Base = declarative_base()
 
 engine = create_engine('postgresql://postgres:12345@localhost:5432/pav')
 
-class Cliente(db.Base):
+class Cliente(db.Model):
     __tablename__ = 'clientes'
     __table_args__ = {'extend_existing': True}
     
@@ -17,7 +17,7 @@ class Cliente(db.Base):
     pedido = relationship("Pedido", back_populates='cliente')
 
 
-class Jogo(db.Base):
+class Jogo(db.Model):
     __tablename__ = 'jogos'
     __table_args__ = {'extend_existing': True}
     
@@ -29,7 +29,7 @@ class Jogo(db.Base):
 
     pedido = relationship("Pedido", back_populates='jogo')
 
-class Pedido(db.Base):
+class Pedido(db.Model):
     __tablename__ = 'pedidos'
     __table_args__ = {'extend_existing': True}
 
@@ -44,4 +44,3 @@ class Pedido(db.Base):
 
 
 Base.metadata.create_all(engine)
-
