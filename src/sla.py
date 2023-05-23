@@ -29,7 +29,7 @@ def create_cliente():
 
 @lojaController.get('/api/cliente')
 def getall_cliente():
-    from models.loja import Cliente
+    from src.loja import Cliente
     
     clientes = db.session.query(Cliente).all()
 
@@ -49,7 +49,7 @@ def getall_cliente():
 
 @lojaController.get("/api/cliente/<idCliente>")
 def get_cliente(idCliente):
-    from models.loja import Cliente
+    from src.loja import Cliente
 
     cliente = db.session.get(Cliente, idCliente)
     if cliente:
@@ -63,7 +63,7 @@ def get_cliente(idCliente):
     
 @lojaController.put('/api/cliente/<idCliente>')
 def put_cliente(idCliente):
-    from models.loja import Cliente
+    from src.loja import Cliente
 
     cliente = db.session.get(Cliente, idCliente)
     if cliente:
@@ -78,7 +78,7 @@ def put_cliente(idCliente):
     
 @lojaController.delete('/api/cliente/<idCliente>')
 def del_cliente(idCliente):
-    from models.loja import Cliente
+    from src.loja import Cliente
 
     cliente = db.session.get(Cliente, idCliente)
     if cliente:
@@ -111,7 +111,7 @@ def create_jogo():
 
 @lojaController.get('/api/jogo')
 def getall_jogo():
-    from models.loja import Jogo
+    from src.loja import Jogo
     
     jogos = db.session.query(Jogo).all()
 
@@ -132,7 +132,7 @@ def getall_jogo():
 
 @lojaController.get("/api/jogo/<idJogo>")
 def get_jogo(idJogo):
-    from models.loja import Jogo
+    from src.loja import Jogo
 
     jogo = db.session.get(Jogo, idJogo)
     if jogo:
@@ -148,7 +148,7 @@ def get_jogo(idJogo):
 
 @lojaController.put('/api/jogo/<idJogo>')
 def put_jogo(idJogo):
-    from models.loja import Jogo
+    from src.loja import Jogo
 
     jogo = db.session.get(Jogo, idJogo)
     if jogo:
@@ -165,7 +165,7 @@ def put_jogo(idJogo):
 
 @lojaController.delete('/api/jogo/<idJogo>')
 def del_jogo(idJogo):
-    from models.loja import Jogo
+    from src.loja import Jogo
 
     jogo = db.session.get(Jogo, idJogo)
     if jogo:
@@ -200,7 +200,7 @@ def create_pedido():
 
 @lojaController.get('/api/pedido')
 def getall_pedido():
-    from models.loja import Pedido
+    from src.loja import Pedido
     
     pedidos = db.session.query(Pedido).all()
 
@@ -221,7 +221,7 @@ def getall_pedido():
 
 @lojaController.get("/api/pedido/<idPedido>")
 def get_pedido(idPedido):
-    from models.loja import Pedido
+    from src.loja import Pedido
 
     pedido = db.session.get(Pedido, idPedido)
     if pedido:
@@ -237,7 +237,7 @@ def get_pedido(idPedido):
 
 @lojaController.put('/api/pedido/<idPedido>')
 def put_pedido(idPedido):
-    from models.loja import Pedido
+    from src.loja import Pedido
 
     pedido = db.session.get(Pedido, idPedido)
     if pedido:
@@ -255,7 +255,7 @@ def put_pedido(idPedido):
 
 @lojaController.delete('/api/pedido/<idPedido>')
 def del_pedido(idPedido):
-    from models.loja import Pedido
+    from src.loja import Pedido
 
     pedido = db.session.get(Pedido, idPedido)
     if pedido:
