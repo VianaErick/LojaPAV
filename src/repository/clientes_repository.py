@@ -1,5 +1,5 @@
 import sqlalchemy
-from models.models import Cliente, db
+from ..models.models import Cliente, db
 
 def get_clientes() -> sqlalchemy.orm.query.Query:
     clientes = db.session.query(Cliente).all()

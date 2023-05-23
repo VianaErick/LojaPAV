@@ -1,7 +1,7 @@
 from flask_restful import Resource, abort, fields, marshal_with, reqparse, request
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import UnmappedInstanceError
-from repository.clientes_repository import get_cliente, get_clientes, add_cliente, update_cliente, delete_cliente, select_cliente
+from ..repository.clientes_repository import get_cliente, get_clientes, add_cliente, update_cliente, delete_cliente, select_cliente
 
 response_fields = {
     "id": fields.Integer,

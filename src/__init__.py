@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from .endpoints import initialize_endpoints
 
-from .models import db
+from .models.models import db
 
 def create_app() -> Flask:
     app = Flask(__name__)

@@ -11,7 +11,7 @@ class Cliente(Base):
     __table_args__ = {'extend_existing': True}
     
     idCliente = Column(Integer, primary_key=True, autoincrement=True)
-    nomeCliente = Column(String(45), nullale=False)
+    nomeCliente = Column(String(45))
     enderecoCliente = Column(String(255), default="", nullable=False)
 
     pedido = relationship("Pedido", back_populates='cliente')
@@ -22,9 +22,9 @@ class Jogo(Base):
     __table_args__ = {'extend_existing': True}
     
     idJogo = Column(Integer, primary_key=True, autoincrement=True)
-    nomeJogo = Column(String(45), nullale=False)
+    nomeJogo = Column(String(45))
     descricaoJogo = Column(String(255), default="", nullable=False)
-    categoriaJogo = Column(String(45), nullale=False)
+    categoriaJogo = Column(String(45))
     precoJogo = Column(Float, nullable=False)
 
     pedido = relationship("Pedido", back_populates='jogo')
@@ -38,12 +38,12 @@ class Pedido(Base):
     idPedido = Column(Integer, primary_key=True, autoincrement=True)
     idCliente = Column(Integer, ForeignKey('clientes.idCliente'), nullable=False)
     idJogo = Column(Integer, ForeignKey('jogos.idJogo'), nullable=False)
-    dataPedido = Column(Date, nullable=False, nullable=False)
-    precoPedido = Column(Float, nullable = False, nullable=False)
+    dataPedido = Column(Date, nullable=False)
+    precoPedido = Column(Float, nullable = False)
 
     cliente = relationship("Cliente", back_populates='pedido')
     jogo = relationship("Jogo", back_populates='pedido')
 
 
-engine = create_engine('mysql://root:adm123@localhost:3306/SistemaAcademico2')
+engine = create_engine('postgresql://postgres:12345@localhost:5432/pav')
 Base.metadata.create_all(engine)
