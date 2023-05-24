@@ -1,33 +1,38 @@
 from flask_restful import Resource, abort, fields, marshal_with, reqparse, request
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import UnmappedInstanceError
-from ..repository.clientes_repository import get_cliente, get_clientes, add_cliente, update_cliente, delete_cliente, select_cliente
+from ..repository.jogos_repository import get_jogo, get_jogos, add_jogo, update_jogo, delete_jogo, select_jogo
+from sqlalchemy import Float
 
 response_fields = {
-    "idCliente": fields.Integer,
-    "nomeCliente": fields.String,
-    "enderecoCliente": fields.String,
+    "idJogo": fields.Integer,
+    "nomeJogo": fields.String,
+    "descricaoJogo": fields.String,
+    "categoriaJogo": fields.String,
+    "precoJogo": fields.Float,
 }
 
 request_parser = reqparse.RequestParser(bundle_errors=True)
-request_parser.add_argument("nomeCliente", type=str, help="", required=True)
-request_parser.add_argument("enderecoCliente", type=str, help="", required=True)
+request_parser.add_argument("nomeJogo", type=str, help="", required=True)
+request_parser.add_argument("descricaoJogo", type=str, help="", required=True)
+request_parser.add_argument("categoriaJogo", type=str, help="", required=True)
+request_parser.add_argument("precoJogo", type=Float, help="", required=True)
 
 
-class ClienteItem(Resource):
+class JogoItem(Resource):
     @marshal_with(response_fields)
-    def get(self, idCliente):
+    def get(self, idJogo):
         try:
-            cliente = get_cliente(idCliente)
-            if not cliente:
+            jogo = get_jogo(idJogo)
+            if not jogo:
                 abort(404, message="Resource not found")
-            return cliente, 200
+            return jogo, 200
         except OperationalError:
             abort(500, message="Internal Server Error")
 
-    def delete(self, idCliente):
+    def delete(self, idJogo):
         try:
-            delete_cliente(idCliente)
+            delete_jogo(idJogo)
             return "", 204
         except UnmappedInstanceError:
             abort(404, message="Resource not found")
@@ -35,23 +40,23 @@ class ClienteItem(Resource):
             abort(500, message="Internal Server Error")
 
     @marshal_with(response_fields)
-    def put(self, idCliente):
+    def put(self, idJogo):
         try:
             args = request_parser.parse_args(strict=True)
-            cliente = update_cliente(**args, idCliente=idCliente)
-            return cliente, 200
+            jogo = update_jogo(**args, idJogo=idJogo)
+            return jogo, 200
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
 
 
-class ClienteList(Resource):
+class JogoList(Resource):
     @marshal_with(response_fields)
     def get(self):
         try:
             if request.args:
-                select_cliente(request.args['nomeCliente'])
+                select_jogo(request.args['nomeJogo'])
             else:
-                return get_clientes(), 200
+                return get_jogos(), 200
         except OperationalError:
             abort(500, message="Internal Server Error")
 
@@ -59,7 +64,7 @@ class ClienteList(Resource):
     def post(self):
         try:
             args = request_parser.parse_args(strict=True)
-            cliente = add_cliente(**args)
-            return cliente, 201
+            jogo = add_jogo(**args)
+            return jogo, 201
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
