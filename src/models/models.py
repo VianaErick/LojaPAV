@@ -24,7 +24,7 @@ class Jogo(Base):
     idJogo = Column(Integer, primary_key=True, autoincrement=True)
     nomeJogo = Column(String(45))
     descricaoJogo = Column(String(255), default="", nullable=False)
-    categoriaJogo = Column(String(45))
+    categoriaJogo = Column(String(45), nullable=False)
     precoJogo = Column(Float, nullable=False)
 
     pedido = relationship("Pedido", back_populates='jogo')

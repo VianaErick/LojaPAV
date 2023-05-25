@@ -6,11 +6,7 @@ from .controller.pedido_controller import PedidoItem, PedidoList
 def initialize_endpoints(api):
     api.add_resource(ClienteItem, "/clientes/<int:idCliente>")
     api.add_resource(ClienteList, "/clientes")
-
-def initialize_endpoints(api):
     api.add_resource(JogoItem, "/jogos/<int:idJogo>")
     api.add_resource(JogoList, "/jogos")
-
-def initialize_endpoints(api):
     api.add_resource(PedidoItem, "/pedidos/<int:idPedido>")
     api.add_resource(PedidoList, "/pedidos")

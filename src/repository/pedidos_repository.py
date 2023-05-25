@@ -1,6 +1,6 @@
-import sqlalchemy 
-from sqlalchemy import Date, Float
-from ..models.models import Pedido, Cliente, Jogo, db
+import sqlalchemy
+from ..models.models import Pedido, db
+from datetime import datetime
 
 def get_pedidos() -> sqlalchemy.orm.query.Query:
     pedidos = db.session.query(Pedido).all()
@@ -18,13 +18,13 @@ def delete_pedido(idPedido: int):
     db.session.commit()
 
 
-def select_pedido(dataPedido: Date) -> sqlalchemy.orm.query.Query:
-    print(dataPedido)
-    pedido = db.session.query(Pedido).filter_by(dataPedido=dataPedido).all()
+def select_pedido(date_str: str) -> sqlalchemy.orm.query.Query:
+    date = datetime.strptime(date_str, "%Y-%m-%d")
+    pedido = db.session.query(Pedido).filter_by(dataPedido=date).all()
     return pedido
 
 
-def add_pedido(idCliente: int, idJogo: int, dataPedido: Date, precoPedido: Float) -> Pedido:
+def add_pedido(idCliente: int, idJogo: int, dataPedido: datetime, precoPedido: float) -> Pedido:
     pedido = Pedido(idCliente=idCliente, idJogo=idJogo, dataPedido=dataPedido, precoPedido=precoPedido)
     db.session.add(pedido)
 
@@ -32,12 +32,14 @@ def add_pedido(idCliente: int, idJogo: int, dataPedido: Date, precoPedido: Float
 
     return pedido
 
-def update_pedido(idPedido: int, idCliente: int, idJogo: str, dataPedido: Date, precoPedido: Float ) -> Pedido:
+def update_pedido(idPedido: int, idCliente: int, idJogo: str, dataPedido: str, precoPedido: float ) -> Pedido:
     pedido = db.session.query(Pedido).get(idPedido)
+
+    date = datetime.strptime(dataPedido, "%Y-%m-%d")
     
     pedido.idCliente = idCliente
     pedido.idJogo = idJogo
-    pedido.dataPedido = dataPedido
+    pedido.dataPedido = date
     pedido.precoPedido = precoPedido
 
     db.session.commit()

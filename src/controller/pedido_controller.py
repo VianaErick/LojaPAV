@@ -2,21 +2,20 @@ from flask_restful import Resource, abort, fields, marshal_with, reqparse, reque
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import UnmappedInstanceError
 from ..repository.pedidos_repository import get_pedido, get_pedidos, add_pedido, update_pedido, delete_pedido, select_pedido
-from sqlalchemy import Float, Date
 
 response_fields = {
     "idPedido": fields.Integer,
     "idCliente": fields.Integer,
     "idJogo": fields.Integer,
-    "dataPedido": fields.Date,
+    "dataPedido": fields.String,
     "precoPedido": fields.Float,
 }
 
 request_parser = reqparse.RequestParser(bundle_errors=True)
 request_parser.add_argument("idCliente", type=int, help="", required=True)
 request_parser.add_argument("idJogo", type=int, help="", required=True)
-request_parser.add_argument("dataPedido", type=Date, help="", required=True)
-request_parser.add_argument("precoPedido", type=Float, help="", required=True)
+request_parser.add_argument("dataPedido", type=str, help="", required=True)
+request_parser.add_argument("precoPedido", type=float, help="", required=True)
 
 
 class PedidoItem(Resource):

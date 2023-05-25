@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy import Float
 from ..models.models import Jogo, db
 
 def get_jogos() -> sqlalchemy.orm.query.Query:
@@ -24,7 +23,7 @@ def select_jogo(nomeJogo: str) -> sqlalchemy.orm.query.Query:
     return jogo
 
 
-def add_jogo(nomeJogo: str, descricaoJogo: str, categoriaJogo: str, precoJogo: Float) -> Jogo:
+def add_jogo(nomeJogo: str, descricaoJogo: str, categoriaJogo: str, precoJogo: float) -> Jogo:
     jogo = Jogo(nomeJogo=nomeJogo, descricaoJogo=descricaoJogo, categoriaJogo=categoriaJogo, precoJogo=precoJogo)
     db.session.add(jogo)
 
@@ -32,7 +31,7 @@ def add_jogo(nomeJogo: str, descricaoJogo: str, categoriaJogo: str, precoJogo: F
 
     return jogo
 
-def update_jogo(idJogo:int, nomeJogo: str, descricaoJogo: str, categoriaJogo: str, precoJogo: Float) -> Jogo:
+def update_jogo(idJogo:int, nomeJogo: str, descricaoJogo: str, categoriaJogo: str, precoJogo: float) -> Jogo:
     jogo = db.session.query(Jogo).get(idJogo)
     
     jogo.nomeJogo = nomeJogo

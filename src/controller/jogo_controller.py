@@ -2,7 +2,6 @@ from flask_restful import Resource, abort, fields, marshal_with, reqparse, reque
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import UnmappedInstanceError
 from ..repository.jogos_repository import get_jogo, get_jogos, add_jogo, update_jogo, delete_jogo, select_jogo
-from sqlalchemy import Float
 
 response_fields = {
     "idJogo": fields.Integer,
@@ -16,7 +15,7 @@ request_parser = reqparse.RequestParser(bundle_errors=True)
 request_parser.add_argument("nomeJogo", type=str, help="", required=True)
 request_parser.add_argument("descricaoJogo", type=str, help="", required=True)
 request_parser.add_argument("categoriaJogo", type=str, help="", required=True)
-request_parser.add_argument("precoJogo", type=Float, help="", required=True)
+request_parser.add_argument("precoJogo", type=float, help="", required=True)
 
 
 class JogoItem(Resource):
