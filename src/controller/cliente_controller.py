@@ -48,10 +48,13 @@ class ClienteList(Resource):
     @marshal_with(response_fields)
     def get(self):
         try:
-            if request.args:
-                select_cliente(request.args['nomeCliente'])
+            if  request.args:
+                nomeCliente = request.args['nomeCliente']
+                clientes = select_cliente(nomeCliente)
+                return clientes, 200
             else:
-                return get_clientes(), 200
+                clientes = get_clientes()
+                return clientes, 200
         except OperationalError:
             abort(500, message="Internal Server Error")
 

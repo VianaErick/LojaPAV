@@ -18,8 +18,8 @@ def delete_pedido(idPedido: int):
     db.session.commit()
 
 
-def select_pedido(date_str: str) -> sqlalchemy.orm.query.Query:
-    date = datetime.strptime(date_str, "%Y-%m-%d")
+def select_pedido(dataPedido: str) -> sqlalchemy.orm.query.Query:
+    date = datetime.strptime(dataPedido, "%Y-%m-%d")
     pedido = db.session.query(Pedido).filter_by(dataPedido=date).all()
     return pedido
 

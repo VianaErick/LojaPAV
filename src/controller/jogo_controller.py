@@ -52,10 +52,13 @@ class JogoList(Resource):
     @marshal_with(response_fields)
     def get(self):
         try:
-            if request.args:
-                select_jogo(request.args['nomeJogo'])
+            if  request.args:
+                nomeJogo = request.args['nomeJogo']
+                jogos = select_jogo(nomeJogo)
+                return jogos, 200
             else:
-                return get_jogos(), 200
+                jogos = get_jogos()
+                return jogos, 200
         except OperationalError:
             abort(500, message="Internal Server Error")
 

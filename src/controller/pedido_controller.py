@@ -52,10 +52,13 @@ class PedidoList(Resource):
     @marshal_with(response_fields)
     def get(self):
         try:
-            if request.args:
-                select_pedido(request.args['dataPedido'])
+            if  request.args:
+                dataPedido = request.args['dataPedido']
+                pedidos = select_pedido(dataPedido)
+                return pedidos, 200
             else:
-                return get_pedidos(), 200
+                pedidos = get_pedidos()
+                return pedidos, 200
         except OperationalError:
             abort(500, message="Internal Server Error")
 

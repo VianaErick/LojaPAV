@@ -1,5 +1,6 @@
 import sqlalchemy
 from ..models.models import Cliente, db
+from typing import List
 
 def get_clientes() -> sqlalchemy.orm.query.Query:
     clientes = db.session.query(Cliente).all()
@@ -18,7 +19,6 @@ def delete_cliente(idCliente: int):
 
 
 def select_cliente(nomeCliente: str) -> sqlalchemy.orm.query.Query:
-    print(nomeCliente)
     cliente = db.session.query(Cliente).filter_by(nomeCliente=nomeCliente).all()
     return cliente
 

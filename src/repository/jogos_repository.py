@@ -18,7 +18,6 @@ def delete_jogo(idJogo: int):
 
 
 def select_jogo(nomeJogo: str) -> sqlalchemy.orm.query.Query:
-    print(nomeJogo)
     jogo = db.session.query(Jogo).filter_by(nomeJogo=nomeJogo).all()
     return jogo
 
